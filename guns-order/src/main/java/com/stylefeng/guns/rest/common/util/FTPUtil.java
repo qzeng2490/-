@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,6 +27,8 @@ public class FTPUtil {
 
     private FTPClient ftpClient = null;
 
+    private final String path = "/Users/zengqiang/Documents/guns/guns-order/src/main/resources/cgs.json";
+
     private void initFTPClient(){
         try{
             ftpClient = new FTPClient();
@@ -41,11 +44,16 @@ public class FTPUtil {
     public String getFileStrByAddress(String fileAddress){
         BufferedReader bufferedReader = null;
         try{
-            initFTPClient();
-            bufferedReader = new BufferedReader(
-                    new InputStreamReader(
-                            ftpClient.retrieveFileStream(fileAddress))
-            );
+//            initFTPClient();
+
+            InputStream stream = new FileInputStream(path);
+            bufferedReader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+
+
+//            bufferedReader = new BufferedReader(
+//                    new InputStreamReader(
+//                            ftpClient.retrieveFileStream(fileAddress))
+//            );
 
             StringBuffer stringBuffer = new StringBuffer();
             while(true){
@@ -56,7 +64,7 @@ public class FTPUtil {
                 stringBuffer.append(lineStr);
             }
 
-            ftpClient.logout();
+//            ftpClient.logout();
             return stringBuffer.toString();
         }catch (Exception e){
             log.error("获取文件信息失败",e);
@@ -73,7 +81,7 @@ public class FTPUtil {
     public static void main(String[] args) {
 
         FTPUtil ftpUtil = new FTPUtil();
-        String fileStrByAddress = ftpUtil.getFileStrByAddress("seats/cgs.json");
+        String fileStrByAddress = ftpUtil.getFileStrByAddress("/Users/zengqiang/Documents/guns/guns-order/src/main/resources/cgs.json");
 
         System.out.println(fileStrByAddress);
     }

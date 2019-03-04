@@ -22,9 +22,9 @@ public interface MoocOrder2018TMapper extends BaseMapper<MoocOrder2018T> {
 
     OrderVO getOrderInfoById(@Param("orderId") String orderId);
 
-    List<OrderVO> getOrdersByUserId(@Param("userId")Integer userId, Page<OrderVO> page);
+    List<OrderVO> getOrdersByUserId(@Param("userId") Integer userId, Page<OrderVO> page);
 
-    String getSoldSeatsByFieldId(@Param("fieldId")Integer fieldId);
+    String getSoldSeatsByFieldId(@Param("fieldId") Integer fieldId);
 
 
 }
